@@ -1,0 +1,31 @@
+cd /home/stree/assistente_universal
+
+# 1. Criar ou substituir .gitignore completo
+cat <<EOF > .gitignore
+# Ignorar arquivos sensíveis e temporários
+__pycache__/
+*.pyc
+*.log
+*.zip
+*.tar.gz
+*.bak
+
+# Ambiente e banco
+.env
+.env.*
+*.sqlite3
+*.db
+
+# IDEs e sistema
+.vscode/
+.idea/
+.DS_Store
+
+# Documentação gerada
+docs/diarios/
+EOF
+
+# 2. Adicionar, comitar e enviar ao GitHub
+git add .gitignore
+git commit -m "✅ Adiciona .gitignore completo e seguro (padrão do projeto)"
+git push origin main

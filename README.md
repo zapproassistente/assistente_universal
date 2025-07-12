@@ -1,177 +1,263 @@
 # ASSISTENTE UNIVERSAL · Z-API + FASTAPI + GPT-4
 
-## OBJETIVO
-Receber mensagens via WhatsApp (Z-API), gerar um diário técnico com GPT-4 e responder automaticamente com confirmação.
+## 🚀 VISÃO GERAL
 
-## COMO USAR
+Um sistema de atendimento inteligente que recebe mensagens via WhatsApp (Z-API), gera um diário técnico com GPT-4 e responde automaticamente ao remetente.
 
-### 1. CONFIGURAR ENV
-Crie um arquivo `.env` na raiz com suas chaves (veja `.env.example`).
+## ⚙️ FUNCIONALIDADES ATUAIS
 
-### 2. SUBIR O PROJETO
-```bash
-docker-compose up --build
-```
-
-### 3. ENDPOINT DISPONÍVEL
-POST https://zappro.site/webhook/diario
-
-### 4. FORMATO DA MENSAGEM
-Envie via WhatsApp: `Diário: <seu texto>`
-
-### 5. O QUE ACONTECE:
-- Gera um HTML com base no texto
-- Salva no servidor em `docs/diarios/`
-- Envia confirmação via Z-API para o remetente
-
-
-Claro! Aqui está o **conteúdo completo do `README.md`** em **formato claro, estruturado e em CAIXA ALTA** — com tudo o que você precisa saber **desde o começo até o funcionamento final** do projeto `assistente_universal`.
+* Conecta com Z-API para receber mensagens
+* Usa FastAPI como servidor
+* Integração com OpenAI GPT-4
+* Gera diários técnicos em HTML
+* Responde automaticamente pelo WhatsApp
+* Containerizado com Docker e Docker Compose
 
 ---
 
-````markdown
-# ASSISTENTE UNIVERSAL · DIÁRIO TÉCNICO AUTOMATIZADO
-
-ESSE PROJETO PERMITE QUE VOCÊ ENVIE MENSAGENS (EX: PELO WHATSAPP OU CURL) COM O TEXTO DO SEU DIA DE TRABALHO, E O SISTEMA VAI:
-
-✅ CONECTAR AO CHATGPT (GPT-4)  
-✅ GERAR UM DIÁRIO TÉCNICO EM FORMATO HTML  
-✅ SALVAR O ARQUIVO NO SEU WORKSPACE  
-✅ (OPCIONAL) RODAR JUNTO COM O N8N PARA FLUXOS DE AUTOMAÇÃO VISUAL
-
----
-
-## 🚀 COMO COMEÇAR
-
-### 1. PRÉ-REQUISITOS
-
-- TER DOCKER E DOCKER COMPOSE INSTALADO
-- TER UMA CHAVE DA OPENAI (GPT-4)
-- OPCIONAL: TER N8N INSTALADO (OU USAR O QUE VEM JUNTO NO DOCKER)
-
----
-
-### 2. CONFIGURANDO O PROJETO
-
-1. EXTRAIA O ARQUIVO `assistente_universal.zip`
-2. ENTRE NA PASTA EXTRAÍDA:
-
-```bash
-cd assistente_universal
-````
-
-3. CRIE UM ARQUIVO `.env` COM SUA CHAVE:
-
-```
-OPENAI_API_KEY=sua_chave_aqui
-```
-
----
-
-### 3. SUBINDO O AMBIENTE
-
-EXECUTE:
-
-```bash
-docker-compose up --build
-```
-
-VOCÊ VERÁ:
-
-* FASTAPI RODANDO EM `http://localhost:8000`
-* N8N DISPONÍVEL EM `http://localhost:5678`
-
----
-
-### 4. ENVIANDO UM DIÁRIO
-
-ENVIE UM POST PARA O WEBHOOK `/webhook/diario`
-
-EXEMPLO COM `curl`:
-
-```bash
-curl -X POST http://localhost:8000/webhook/diario -d "DIÁRIO: HOJE MELHOREI O CÓDIGO DO FASTAPI E TESTEI O DEPLOY COM DOCKER."
-```
-
-✅ O HTML GERADO SERÁ SALVO EM:
-
-```
-docs/diarios/diario_DIA-MES-ANO.html
-```
-
----
-
-## 🧠 ESTRUTURA DO PROJETO
+## 📂 ESTRUTURA DO PROJETO
 
 ```
 assistente_universal/
-├── main.py                  ← API FASTAPI
-├── docker-compose.yml       ← ORQUESTRAÇÃO DOS SERVIÇOS
-├── Dockerfile               ← CONTAINER PYTHON + FASTAPI
-├── requirements.txt         ← DEPENDÊNCIAS PYTHON
-├── .env.example             ← MODELO PARA VARIÁVEIS DE AMBIENTE
+├── .env                    # Variáveis de ambiente (não subir)
+├── .env.example           # Exemplo de arquivo .env
+├── Dockerfile             # Imagem do container Python + FastAPI
+├── docker-compose.yml     # Orquestração do container
+├── requirements.txt       # Dependências Python
+├── main.py                # App principal (FastAPI)
 │
 ├── scripts/
-│   └── diario_automation_local.py ← GERA DIÁRIO LOCALMENTE
+│   └── diario_automation_local.py  # Gera diário localmente
 │
 ├── docs/
-│   ├── memoria/
-│   ├── diarios/
-│   │   └── vertical/        ← ONDE FICAM OS HTMLS
-│   └── modelos/             ← TEMPLATES E PROMPTS
+│   ├── memoria/           # Logs ou memórias (futuro)
+│   ├── diarios/           # Onde são salvos os HTMLs
+│   │   └── vertical/
+│   └── modelos/           # Templates, prompts, instruções
 │
 └── n8n/
-    ├── n8n_diario_whatsapp.json ← FLUXO IMPORTÁVEL NO N8N
-    └── README_n8n_diario.md     ← INSTRUÇÕES DO FLUXO
+    ├── n8n_diario_whatsapp.json  # Fluxo N8N
+    └── README_n8n_diario.md      # Guia do N8N
 ```
 
 ---
 
-## 🧩 COMO FUNCIONA
+## 📚 COMO USAR
 
-1. VOCÊ ENVIA UM TEXTO PARA O WEBHOOK
-2. O FASTAPI PEGA O TEXTO E ENVIA PARA O GPT-4
-3. O GPT GERA UM HTML PERSONALIZADO
-4. O ARQUIVO É SALVO AUTOMATICAMENTE NO DISCO
+### 1. PREPARAR O ARQUIVO `.env`
 
----
-
-## 🔄 INTEGRAÇÃO COM N8N (OPCIONAL)
-
-1. ABRA `http://localhost:5678`
-2. CLIQUE EM "IMPORT"
-3. IMPORTE O ARQUIVO: `n8n/n8n_diario_whatsapp.json`
-4. AJUSTE O CAMINHO DE SALVAMENTO
-5. TESTE O FLUXO ENVIANDO UMA MENSAGEM PELO WHATSAPP OU HTTP
-
----
-
-## 🛡️ DICAS DE SEGURANÇA
-
-* **NUNCA SUBA SUA CHAVE `.env` PARA O GITHUB**
-* USE `.gitignore` PARA IGNORAR O ARQUIVO `.env`
-* MANTENHA SUA CHAVE SEGURA
-
----
-
-## ✨ PRÓXIMOS PASSOS
-
-* ADICIONAR MEMÓRIA COM REDIS OU SQL
-* INTEGRAR COM GOOGLE SHEETS OU NOTION
-* USAR TAGS PARA CATEGORIZAÇÃO INTELIGENTE
-* MONTAR DASHBOARD COM SEUS DIÁRIOS
-
----
-
-## 🧠 OBJETIVO DO PROJETO
-
-TER UM ASSISTENTE PESSOAL INTELIGENTE QUE:
-
-* CAPTA O QUE VOCÊ FEZ
-* GERA UM DIÁRIO BONITO E FORMATADO
-* SE LEMBRA DO CONTEXTO SEMPRE QUE PRECISAR
-* PODE EVOLUIR COM VOCÊ, EM CÓDIGO, EM N8N OU NA NUVEM
-
----
+Copie o `.env.example` e insira:
 
 ```
+OPENAI_API_KEY=...
+ZAPI_ID=...
+ZAPI_TOKEN=...
+ZAPI_BASE_URL=...
+```
+
+### 2. SUBIR O PROJETO COM DOCKER
+
+```bash
+docker-compose up --build
+```
+
+### 3. ACESSAR FASTAPI
+
+* Local: [http://localhost:8000](http://localhost:8000)
+* Produção: [https://zappro.site](https://zappro.site)
+
+### 4. ENVIAR MENSAGEM (EXEMPLO)
+
+```
+POST /webhook/diario
+Body: Diario: Fiz ajustes no servidor e testei deploy
+```
+
+### 5. RESULTADO
+
+* HTML gerado em `docs/diarios/`
+* Confirmação enviada via Z-API WhatsApp
+
+---
+
+## 🚀 RUMO À VERSÃO FINAL
+
+### 🌐 VISÃO DA ESTRUTURA FINAL IDEAL
+
+```
+assistente_universal/
+├── backend/                  # FastAPI + lógica
+│   ├── main.py
+│   ├── services/
+│   ├── models/
+│   ├── api/
+│   └── config/
+├── frontend/                 # HTML, assets, landing page
+│   ├── index.html
+│   └── static/
+├── infra/
+│   ├── nginx/
+│   ├── certbot/
+│   └── docker/
+├── .github/
+│   └── workflows/         # CI/CD
+├── tests/                    # Pytest ou similar
+├── .env, .env.example
+├── docker-compose.yml
+└── README.md
+```
+
+### 🧵 PADRÕES E VERSÕES
+
+* SemVer para versão do projeto (Ex: 0.1.0)
+* `main` = branch estável
+* `dev` = branch de desenvolvimento
+* Uso de `.editorconfig` e `pre-commit`
+
+### 📊 ETAPAS PARA CHEGAR LÁ
+
+#### 🔄 CURTO PRAZO (v0.2.x)
+
+* [ ] Gerar certificado SSL válido com Certbot
+* [ ] Validar webhook Z-API com respostas reais
+* [ ] Tornar variáveis dinâmicas (modelos, saídas)
+* [ ] Melhorar layout do HTML gerado
+
+#### ⚛️ INTERMEDIÁRIO (v0.5.x)
+
+* [ ] Adicionar autenticação (token ou OAuth)
+* [ ] Logs centralizados e dashboard
+* [ ] CI/CD com GitHub Actions
+* [ ] Monitoramento com Uptime Robot ou Prometheus
+
+#### 🌟 VISÃO FINAL (v1.0.0)
+
+* [ ] Infra como código (Terraform/Ansible)
+* [ ] Modo multiusuário
+* [ ] Dashboard frontend com histórico
+* [ ] API para integrações externas
+* [ ] Plano gratuito/pago com Stripe
+* [ ] Deploy global com CDN e failover
+
+---
+
+## 💖 OBJETIVO MAIOR
+
+> **Construir um produto de IA com nível de excelência OpenAI**: confiável, modular, documentado e pronto para escalar.
+
+Claro! Abaixo seguem **dois prompts organizados e seguros**:
+
+---
+
+## ✅ PROMPT 1: ESTRUTURA DO PROJETO · CAMINHOS · IPS · DOMÍNIOS · SENHAS
+
+> 🔐 **(Apenas para uso pessoal — mantenha esse prompt privado)**
+
+```
+Você está ajudando no projeto **Assistente Universal**, um sistema baseado em FastAPI + Docker + GPT-4 + Z-API com landing page e integração via WhatsApp.
+
+📁 PASTAS IMPORTANTES (DENTRO DA VPS CONTABO):
+- Código-fonte: `/home/stree/assistente_universal/`
+- Arquivos HTML salvos: `/home/stree/assistente_universal/docs/diarios/`
+- Arquivo de variáveis: `/home/stree/assistente_universal/.env`
+- Arquivo Docker Compose: `/home/stree/assistente_universal/docker-compose.yml`
+- Pasta pública do nginx (landing page): `/var/www/html/`
+
+🌐 DOMÍNIOS:
+- `zappro.site` ← apontando para VPS Contabo
+- Subdomínios opcionais: `www.zappro.site`
+
+🔑 ACESSOS CONHECIDOS:
+- VPS IP: `187.112.70.54`
+- Usuário da VPS: `stree` (usuário criado manualmente)
+- Pasta home: `/home/stree`
+- Último zip do projeto: `assistente_universal_2025-07-12.zip`
+
+🔒 SENHAS DE VARIÁVEIS `.env`:
+- `ZAPI_ID=3E301C0DF21DB35B5585`
+- `ZAPI_TOKEN=s708E5371D77DA9BD3F8`
+- `ZAPI_BASE_URL=https://api.z-api.io/instances`
+- `OPENAI_API_KEY=oAsk525413ei9ZxbK7hC`
+- `REFAC_PASS=Ju156458*`
+```
+
+---
+
+## 📌 PROMPT 2: REGRAS DE PADRÃO · NOMEAÇÃO · BOAS PRÁTICAS
+
+```
+📋 Siga sempre estas REGRAS PADRÃO no projeto Assistente Universal:
+
+✅ NOMES DE ARQUIVOS:
+- Usar nomes claros e minúsculos com underline: exemplo → `main.py`, `gerador_diario.py`, `logo_zappro.png`
+- Nunca sobrescreva arquivos finais sem gerar um backup com data: ex → `assistente_universal_2025-07-12.zip`
+
+✅ NOMEAÇÃO DE VERSÕES:
+- Usar padrão `ano-mes-dia` (YYYY-MM-DD) para zips e logs
+- Cada pacote zipado deve seguir: `assistente_universal_YYYY-MM-DD.zip`
+
+✅ ESTRUTURA FINAL DE PASTAS:
+```
+
+assistente\_universal/
+├── main.py
+├── docker-compose.yml
+├── Dockerfile
+├── .env
+├── requirements.txt
+│
+├── docs/
+│   └── diarios/
+│       └── vertical/
+│
+├── scripts/
+│   └── diario\_automation\_local.py
+│
+├── public\_html/
+│   └── index.html (landing page)
+│   └── logo.png
+
+```
+
+🚫 NÃO FAZER:
+- Não deletar arquivos sem renomear ou backup
+- Não alterar manualmente `.env` sem validar chaves
+- Não executar comandos como root fora do WSL ou VPS sem entender
+
+📌 FOCO:
+- Projeto organizado como open-source
+- Automatizado com CI/CD
+- Escalável para múltiplos bots
+- Seguro com padrão de arquivos imutáveis
+
+```
+
+---
+
+Se quiser, posso transformar isso em dois arquivos:
+
+* `infra_info.txt` (com acessos e caminhos)
+* `regras_projeto.txt` (com as diretrizes)
+
+Deseja que eu gere?
+
+
+GIT COMIT CI
+
+📌 REGRAS DIÁRIAS (para sincronizar sem sobrescrever nada)
+🔼 Enviar do servidor → GitHub
+bash
+Copiar
+Editar
+cd /home/stree/assistente_universal
+git add .
+git commit -m "📦 Atualização na VPS - $(date +%F)"
+git pull origin main --rebase
+git push origin main
+🔽 Atualizar do GitHub → servidor
+bash
+Copiar
+Editar
+cd /home/stree/assistente_universal
+git pull origin main
+
