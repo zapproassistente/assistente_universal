@@ -8,21 +8,22 @@ cd /home/stree/assistente_universal || {
 echo "🔄 Salvando estado atual..."
 git add .
 
-echo "📝 Tentando criar commit com data e hora..."
-COMMIT_MSG="💾 Atualização na VPS - $(date '+%Y-%m-%d %H:%M:%S')"
-
-# Só tenta commitar se tiver mudanças
-if git diff --cached --quiet; then
+echo "📝 Commitando com data..."
+git commit -m "💾 Atualização na VPS - $(date '+%Y-%m-%d %H:%M:%S')" || {
   echo "⚠️ Nenhuma mudança para commitar."
-else
-  git commit -m "$COMMIT_MSG"
-  echo "✅ Commit realizado: $COMMIT_MSG"
-fi
+}
 
-echo "📥 Puxando últimas alterações do GitHub com rebase..."
+echo "📥 Puxando alterações do GitHub com rebase..."
 git pull origin main --rebase
 
-echo "🚀 Enviando alterações para o GitHub..."
+echo "🚀 Enviando para o GitHub..."
 git push origin main
 
-echo "✅ Sincronização completa com sucesso!"
+echo "🌐 Atualizando arquivos do painel em /var/www/painel..."
+cp -r /home/stree/assistente_universal/painel/* /var/www/painel/
+sudo chown -R www-data:www-data /var/www/painel
+
+echo "🔁 Reiniciando NGINX..."
+sudo systemctl reload nginx
+
+echo "✅ Sincronização e deploy concluídos!"
