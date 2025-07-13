@@ -25,7 +25,10 @@ __pycache__/
 docs/diarios/
 EOF
 
-# 2. Adicionar, comitar e enviar ao GitHub
+# 2. Remover .env do versionamento se já tiver sido adicionado antes
+git rm --cached .env 2>/dev/null || true
+
+# 3. Adicionar, comitar e enviar ao GitHub
 git add .gitignore
-git commit -m "✅ Adiciona .gitignore completo e seguro (padrão do projeto)"
+git commit -m "✅ Adiciona .gitignore completo e remove .env do versionamento"
 git push origin main
