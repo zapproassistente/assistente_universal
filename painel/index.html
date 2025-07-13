@@ -1,99 +1,112 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Painel Mestre – Assistente Universal</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Mestre – Comandos do Dev</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap" rel="stylesheet">
   <style>
     body {
-      background: #232628;
+      margin: 0;
+      background: #121416 url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      font-family: 'Sora', sans-serif;
       color: #eaf6f5;
-      font-family: 'Montserrat', sans-serif;
-      padding: 40px 20px;
-      max-width: 920px;
-      margin: auto;
+      padding: 0 20px 100px;
     }
-    h1, h2 {
+    .container {
+      max-width: 860px;
+      margin: auto;
+      padding: 40px 0;
+    }
+    h1 {
       color: #61ffe7;
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #61ffe7;
+      border-left: 4px solid #61ffe7;
+      padding-left: 12px;
+      margin-top: 48px;
+      margin-bottom: 20px;
     }
     pre {
       background: #1c1f22;
-      padding: 12px;
-      border-radius: 8px;
+      padding: 14px 18px;
+      border-radius: 10px;
       overflow-x: auto;
-      color: #d0f0ff;
       position: relative;
-    }
-    .legend {
-      background: #2e3235;
-      border-left: 4px solid #61ffe7;
-      padding: 10px 16px;
-      border-radius: 6px;
-      margin: 20px 0 10px;
-    }
-    .section {
-      margin-bottom: 40px;
+      margin: 16px 0;
+      color: #d0f0ff;
+      font-size: 0.95rem;
     }
     .copy-btn {
       position: absolute;
-      top: 8px;
-      right: 8px;
+      top: 10px;
+      right: 10px;
       background: #61ffe7;
       border: none;
-      padding: 6px 12px;
-      border-radius: 5px;
+      padding: 6px 14px;
+      border-radius: 8px;
       color: #1c2330;
       font-weight: bold;
       cursor: pointer;
       font-size: 0.85rem;
     }
-    code {
-      font-family: monospace;
+    .section {
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 Painel Mestre de Comandos – Assistente Universal</h1>
+  <div class="container">
+    <h1>🧠 Painel Mestre – Dev Terminal</h1>
 
-  <div class="section">
-    <h2>🚦 Fluxo básico Git VPS</h2>
-    <div class="legend">Use os scripts no momento certo:</div>
-    <ul>
-      <li><strong>🔼 git_push.sh</strong> → Envia mudanças da VPS para o GitHub</li>
-      <li><strong>🔽 git_pull.sh</strong> → Atualiza a VPS com o que está no GitHub</li>
-      <li><strong>🔁 git_sync.sh</strong> → Faz push e pull num só passo (opcional)</li>
-    </ul>
-    <pre><code id="c1">./scripts/git_push.sh</code><button class="copy-btn" onclick="copyCode('c1')">Copiar</button></pre>
-    <pre><code id="c2">./scripts/git_pull.sh</code><button class="copy-btn" onclick="copyCode('c2')">Copiar</button></pre>
-    <pre><code id="c3">./scripts/git_sync.sh</code><button class="copy-btn" onclick="copyCode('c3')">Copiar</button></pre>
-  </div>
+    <div class="section">
+      <h2>🔁 Git & Deploy</h2>
+      <pre><code id="cmd1">./scripts/git_sync.sh</code><button class="copy-btn" onclick="copy('cmd1')">Copiar</button></pre>
+      <pre><code id="cmd2">./scripts/git_push.sh</code><button class="copy-btn" onclick="copy('cmd2')">Copiar</button></pre>
+      <pre><code id="cmd3">./scripts/git_pull.sh</code><button class="copy-btn" onclick="copy('cmd3')">Copiar</button></pre>
+      <pre><code id="cmd4">chmod +x scripts/*.sh</code><button class="copy-btn" onclick="copy('cmd4')">Copiar</button></pre>
+    </div>
 
-  <div class="section">
-    <h2>🛠️ Setup e manutenção</h2>
-    <div class="legend">Comandos do dia a dia para gerenciar seu ambiente</div>
-    <pre><code id="c4">sudo apt update && sudo apt upgrade -y</code><button class="copy-btn" onclick="copyCode('c4')">Copiar</button></pre>
-    <pre><code id="c5">sudo apt install docker-compose nginx git unzip curl zip -y</code><button class="copy-btn" onclick="copyCode('c5')">Copiar</button></pre>
-    <pre><code id="c6">chmod +x scripts/*.sh</code><button class="copy-btn" onclick="copyCode('c6')">Copiar</button></pre>
-  </div>
+    <div class="section">
+      <h2>🐳 Docker</h2>
+      <pre><code id="cmd5">docker-compose up --build -d</code><button class="copy-btn" onclick="copy('cmd5')">Copiar</button></pre>
+      <pre><code id="cmd6">docker-compose down</code><button class="copy-btn" onclick="copy('cmd6')">Copiar</button></pre>
+      <pre><code id="cmd7">docker ps -a</code><button class="copy-btn" onclick="copy('cmd7')">Copiar</button></pre>
+      <pre><code id="cmd8">docker exec -it nome_container bash</code><button class="copy-btn" onclick="copy('cmd8')">Copiar</button></pre>
+    </div>
 
-  <div class="section">
-    <h2>🔥 Rebuild Docker (sem cache)</h2>
-    <div class="legend">Quando atualizar o código e quiser reiniciar o container:</div>
-    <pre><code id="c7">docker-compose down && docker-compose up --build -d</code><button class="copy-btn" onclick="copyCode('c7')">Copiar</button></pre>
-  </div>
+    <div class="section">
+      <h2>💻 WSL / Ubuntu</h2>
+      <pre><code id="cmd9">code .</code><button class="copy-btn" onclick="copy('cmd9')">Copiar</button></pre>
+      <pre><code id="cmd10">wsl --list --verbose</code><button class="copy-btn" onclick="copy('cmd10')">Copiar</button></pre>
+      <pre><code id="cmd11">wsl --set-version Ubuntu 2</code><button class="copy-btn" onclick="copy('cmd11')">Copiar</button></pre>
+      <pre><code id="cmd12">sudo service nginx restart</code><button class="copy-btn" onclick="copy('cmd12')">Copiar</button></pre>
+    </div>
 
-  <div class="section">
-    <h2>📦 Backup do projeto zipado</h2>
-    <div class="legend">Salva um .zip com a data atual</div>
-    <pre><code id="c8">zip -r assistente_universal_$(date +%F).zip . -x "*.git*"</code><button class="copy-btn" onclick="copyCode('c8')">Copiar</button></pre>
+    <div class="section">
+      <h2>🌐 NGINX</h2>
+      <pre><code id="cmd13">sudo nginx -t</code><button class="copy-btn" onclick="copy('cmd13')">Copiar</button></pre>
+      <pre><code id="cmd14">sudo systemctl restart nginx</code><button class="copy-btn" onclick="copy('cmd14')">Copiar</button></pre>
+      <pre><code id="cmd15">sudo ln -s /etc/nginx/sites-available/meusite /etc/nginx/sites-enabled/</code><button class="copy-btn" onclick="copy('cmd15')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>🔐 Permissões & Setup</h2>
+      <pre><code id="cmd16">sudo chown -R $USER:$USER .</code><button class="copy-btn" onclick="copy('cmd16')">Copiar</button></pre>
+      <pre><code id="cmd17">sudo chmod -R 755 .</code><button class="copy-btn" onclick="copy('cmd17')">Copiar</button></pre>
+      <pre><code id="cmd18">sudo apt update && sudo apt upgrade -y</code><button class="copy-btn" onclick="copy('cmd18')">Copiar</button></pre>
+    </div>
   </div>
 
   <script>
-    function copyCode(id) {
-      const el = document.getElementById(id);
-      navigator.clipboard.writeText(el.textContent).then(() => {
-        const btn = el.nextElementSibling;
+    function copy(id) {
+      const code = document.getElementById(id);
+      navigator.clipboard.writeText(code.textContent).then(() => {
+        const btn = code.nextElementSibling;
         btn.textContent = '✅ Copiado';
         setTimeout(() => btn.textContent = 'Copiar', 1500);
       });
