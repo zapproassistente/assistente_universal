@@ -1,3 +1,277 @@
+### ✅ **Estrutura Refinada (Padrão por Container)**
+
+Vamos adotar um padrão por **serviço isolado** (container), onde cada pasta representa **um agente ou função** com seu próprio ambiente, como se fosse uma “mini aplicação independente”.
+
+#### **🌐 Raiz do Projeto (`assistente_universal/`)**
+
+plaintext
+assistente_universal/
+├── agente-fiscal/              # Valida regras de compliance do WhatsApp
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── __init__.py
+│   └── requirements.txt
+
+├── fastapi/                    # API de comunicação central
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── __init__.py
+│   └── requirements.txt
+
+├── n8n/                        # Automação low-code (conector do ZapPRO)
+│   └── [Dockerfile futuro se precisar]
+
+├── orquestrador/              # Gerencia os agentes (router interno)
+│   ├── Dockerfile
+│   ├── main.py
+│   ├── __init__.py
+│   └── requirements.txt
+
+├── scripts/                   # Utilitários para manutenção
+│   ├── atualizar_painel.sh
+│   ├── configurar_zappro.sh
+│   ├── diario_automation_local.py
+│   ├── git_pull.sh
+│   ├── git_push.sh
+│   ├── git_sync.sh
+│   └── painel_assistente.sh
+
+├── html/                      # Landing page
+│   ├── index.html
+│   ├── logo.png
+│   └── Definido.png.Zone.Identifier (pode ser excluído)
+
+├── docs/                      # Documentos e arquivos auxiliares
+│   ├── memoria/
+│   ├── diarios/
+│   ├── modelos/
+│   └── horizontal/vertical/
+
+├── .env                       # Variáveis de ambiente principal
+├── .env.example               # Exemplo do .env
+├── .gitignore
+├── docker-compose.yml        # Orquestra os serviços
+├── Dockerfile                # (Opcional) Raiz, se for a imagem base
+├── main.py                   # Entrada geral (se necessário)
+└── README.md
+
+
+---
+
+### 🧩 **Padrão por Serviço (isolado por função)**
+
+Cada `main.py` deve ter:
+
+```python
+# Exemplo básico
+from fastapi import FastAPI
+app = FastAPI()
+
+@app.get("/")
+def root():
+    return {"status": "running"}
+
+
+E cada `Dockerfile`:
+
+```Dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+CMD ["python", "main.py"]
+```
+
+---
+
+### 📦 **docker-compose.yml base**
+
+```yaml
+version: '3.8'
+services:
+  fastapi:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+
+  orquestrador:
+    build: ./orquestrador
+    env_file:
+      - .env
+
+  agente-fiscal:
+    build: ./agente-fiscal
+    env_file:
+      - .env
+
+
+---
+
+
+# ZapPRO - Assistente Universal via WhatsApp com FastAPI e Z-API
+
+## Visão Geral
+
+ZapPRO é uma plataforma SaaS escalável que oferece assistentes pessoais inteligentes via WhatsApp, integrando FastAPI para backend robusto e Z-API (não oficial) para comunicação com WhatsApp. O sistema possui um agente demo para trial, agentes especializados para usuários PRO, controle automático por número, funil de vendas via chat, onboarding disfarçado, e monitoramento de conformidade para evitar banimentos.
+
+---
+
+## Arquitetura
+
+### Serviços e Containers
+
+| Serviço             | Descrição                                                                                 | Tecnologia/Container                   |
+|---------------------|-------------------------------------------------------------------------------------------|--------------------------------------|
+| FastAPI Backend     | API RESTful para controle de usuários, trial, tokens, cadastro e lógica de negócios       | Container Docker com FastAPI          |
+| Z-API               | Gateway WhatsApp para envio e recebimento de mensagens via API não oficial                | Container oficial [orkestral/docker-zap](https://github.com/orkestral/docker-zap) |
+| Banco de Dados      | Armazena usuários, tokens, perfis, histórico de uso e status                              | Container PostgreSQL (ou MongoDB)    |
+| Agente Fiscal       | Middleware que valida e modera mensagens para garantir conformidade com políticas da Meta| Container FastAPI separado           |
+| Orquestrador        | Serviço que roteia mensagens entre agentes demo, especializados e fiscal                  | Container FastAPI                    |
+| Agentes Especializados | Assistentes focados em tarefas específicas por profissão, ativados para usuários PRO   | Containers separados, FastAPI + IA   |
+| Landing Page        | Página pública para conversão e direcionamento ao WhatsApp                                | Servida por NGINX ou CDN             |
+
+---
+
+## Fluxo de Usuário
+
+1. Usuário acessa Landing Page e inicia conversa pelo WhatsApp via Z-API.
+2. Z-API recebe mensagem e encaminha para Orquestrador via webhook.
+3. Orquestrador verifica perfil do usuário no backend:
+   - Se demo, direciona para Agente Demo.
+   - Se PRO e demanda especializada, direciona para Agente específico.
+4. Resposta gerada passa pelo Agente Fiscal para validação e moderação.
+5. Resposta validada é enviada ao usuário via Z-API.
+6. Sistema controla tokens e tempo de uso, gerando funil de upsell para PRO.
+7. Usuário PRO tem acesso liberado a agentes avançados e funcionalidades adicionais.
+
+---
+
+## Componentes Técnicos
+
+### FastAPI Backend
+
+- Endpoints principais:
+  - `/register`: Cadastro automático pelo número WhatsApp.
+  - `/validate`: Verificação de tokens e status.
+  - `/usage`: Controle de consumo e tokens.
+  - `/upgrade`: Atualização para plano PRO.
+- Gestão de usuários, tokens, histórico e planos.
+- Integração com banco de dados relacional (PostgreSQL recomendado).
+
+### Z-API
+
+- Container oficial para comunicação WhatsApp não oficial.
+- Configurado para webhook para receber e enviar mensagens.
+- Comunicação síncrona com FastAPI backend para validação.
+
+### Agente Fiscal
+
+- Middleware intercepta e analisa mensagens.
+- Aplica regras contra spam, conteúdo proibido e excesso de mensagens.
+- Substitui respostas conforme política, registra logs e alertas.
+
+### Orquestrador
+
+- Serviço de roteamento de mensagens baseado em perfil e contexto.
+- Despacha mensagens para agentes correspondentes.
+- Centraliza controle e monitoramento.
+
+### Agentes Especializados
+
+- Containers isolados para cada tipo de agente.
+- Implementados com FastAPI e integrações IA (ChatGPT, LangChain etc).
+- Adaptados para profissões e usos específicos.
+
+---
+
+## Containerização (docker-compose.yml exemplo)
+
+```yaml
+version: '3.8'
+
+services:
+  fastapi:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./fastapi:/app
+    env_file:
+      - .env
+    restart: always
+
+  zapi:
+    image: orkestral/docker-zap
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./zapi_data:/usr/src/app/data
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: seu_usuario
+      POSTGRES_PASSWORD: sua_senha
+      POSTGRES_DB: zappro
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  agente-fiscal:
+    build: ./agente-fiscal
+    ports:
+      - "8002:8002"
+    restart: always
+
+  orquestrador:
+    build: ./orquestrador
+    ports:
+      - "8003:8003"
+    restart: always
+
+  # Agentes especializados podem ser adicionados conforme necessário
+````
+
+---
+
+## Segurança e Compliance
+
+* Controle rigoroso via Agente Fiscal para evitar banimento.
+* Armazenamento seguro e criptografado de dados sensíveis.
+* Restrição de acesso por IP e autenticação JWT para APIs.
+* Monitoramento constante e alertas de anomalias.
+
+---
+
+## Roadmap de Desenvolvimento
+
+| Fase                       | Entregáveis principais                                     | Tempo estimado |
+| -------------------------- | ---------------------------------------------------------- | -------------- |
+| Integração FastAPI + Z-API | Endpoints básicos, webhook e comunicação                   | 2 semanas      |
+| Agente Demo                | Funil trial, onboarding via WhatsApp, controle tokens      | 2 semanas      |
+| Agente Fiscal              | Middleware para moderação e compliance                     | 3 semanas      |
+| Orquestrador               | Roteamento dinâmico entre agentes                          | 3 semanas      |
+| Agentes Especializados     | Containers com agentes para setores/profissões específicas | 4-6 semanas    |
+| Sistema de Pagamento       | Links, notificações e ativação de planos PRO               | 3 semanas      |
+| Migração Z-API oficial     | Testes e homologação para ambiente oficial                 | 4 semanas      |
+
+---
+
+## Como contribuir e colaborar
+
+* Código versionado em GitHub com branches para cada feature.
+* Pull requests revisados para qualidade e segurança.
+* Documentação atualizada em `/docs`.
+* Uso de testes automatizados e integração contínua.
+
+
+```
+
+
+
 # ✅ PROMPT DE MEMÓRIA GERAL — ASSISTENTE UNIVERSAL (ZAPPRO)
 
 ---
