@@ -1,2 +1,0 @@
-echo "unico_4242" | sudo tee /var/www/painel/.well-known/acme-challenge/teste_unico.txt
-curl http://painel.zappro.site/.well-known/acme-challenge/teste_unico.txt
