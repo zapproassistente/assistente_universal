@@ -19,9 +19,10 @@ git pull origin main --rebase
 echo "🚀 Enviando para o GitHub..."
 git push origin main
 
-echo "🌐 Atualizando arquivos do painel em /var/www/painel..."
-cp -r /home/stree/assistente_universal/painel/* /var/www/painel/
-sudo chown -R www-data:www-data /var/www/painel
+echo "🌐 Atualizando landing page em /var/www/html..."
+sudo mkdir -p /var/www/html
+sudo cp -r html/* /var/www/html/
+sudo chown -R www-data:www-data /var/www/html
 
 echo "🔁 Reiniciando NGINX..."
 sudo systemctl reload nginx

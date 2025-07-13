@@ -12,10 +12,16 @@ echo "📥 Puxando atualizações do GitHub..."
 git pull origin main --rebase
 
 echo "📂 Restaurando mudanças locais..."
-git stash pop
+git stash pop || echo "⚠️ Nenhuma mudança local para restaurar."
 
-echo "🧩 Atualizando painel (copiando para /var/www/painel)..."
-sudo cp -r painel/* /var/www/painel/
-sudo chown -R www-data:www-data /var/www/painel
+PAINEL_ORIGEM="painel"
+PAINEL_DESTINO="/var/www/painel"
 
-echo "✅ Painel sincronizado e atualizado!"
+if [ -d "$PAINEL_ORIGEM" ]; then
+  echo "🧩 Atualizando painel..."
+  sudo cp -r "$PAINEL_ORIGEM"/* "$PAINEL_DESTINO"/
+  sudo chown -R www-data:www-data "$PAINEL_DESTINO"
+  echo "✅ Painel sincronizado e atualizado!"
+else
+  echo "⚠️ Pasta '$PAINEL_ORIGEM' não existe. Ignorando atualização do painel."
+fi

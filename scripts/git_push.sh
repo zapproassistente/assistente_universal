@@ -5,6 +5,12 @@ cd /home/stree/assistente_universal || {
   exit 1
 }
 
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$BRANCH" != "main" ]; then
+  echo "❌ Você está na branch '$BRANCH'. Mude para 'main' antes de continuar."
+  exit 1
+fi
+
 echo "📦 Preparando arquivos para commit..."
 git add .
 
@@ -18,3 +24,5 @@ echo "🚀 Enviando alterações para o GitHub..."
 git push origin main
 
 echo "✅ Push completo!"
+echo "📁 Último commit:"
+git --no-pager log -1 --oneline --decorate
