@@ -5,6 +5,14 @@ import datetime
 
 app = FastAPI(title="ZapPRO Agente Demo")
 
+@app.get("/ping")
+def ping():
+    return {"status": "pong"}
+
+# ...resto do código
+
+app = FastAPI(title="ZapPRO Agente Demo")
+
 # --- MODELOS (simples, pode expandir depois)
 class UserRequest(BaseModel):
     user_id: str
