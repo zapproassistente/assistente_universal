@@ -9,7 +9,7 @@ app = FastAPI(title="ZapPRO Agente Demo")
 def ping():
     return {"status": "pong"}
 
-# ...resto do código
+# ...resto do código (não crie outro app!)
 
 app = FastAPI(title="ZapPRO Agente Demo")
 
