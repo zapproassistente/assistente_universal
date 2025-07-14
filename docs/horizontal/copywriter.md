@@ -1,68 +1,51 @@
-Abaixo está o conteúdo completo e finalizado do arquivo `docs/horizontal/copyright.md`, adaptado para o projeto ZapPRO:
+# 📝 Copywriting & Direitos Autorais – ZapPRO
+
+**Resumo:**  
+Este documento define a proteção, licenciamento e limites de uso de todas as criações, prompts, templates, APIs, fluxos de automação e qualquer conteúdo gerado ou entregue pelo ZapPRO, incluindo agentes, landing pages e sistemas embarcados.
 
 ---
 
-### 🔒 `copyright.md`
+## **Direitos Autorais e Licenciamento**
 
-# Direitos Autorais e Licenciamento do Projeto ZapPRO
-
-## Identidade e Propriedade
-
-**ZapPRO** é uma plataforma tecnológica criada e desenvolvida por Will (empreendedor brasileiro) com o objetivo de entregar assistentes pessoais inteligentes via WhatsApp, com ênfase em automação, IA generativa e integração com FastAPI e Z-API.
-
-Todos os códigos, fluxos, estratégias, documentação, identidades visuais, estrutura de agentes e algoritmos desenvolvidos neste projeto são de propriedade intelectual do criador, e estão protegidos conforme a legislação brasileira de direitos autorais (Lei nº 9.610/98) e tratados internacionais dos quais o Brasil é signatário.
-
----
-
-## Direitos Reservados
-
-* Proibida a reprodução total ou parcial dos códigos, fluxos e agentes sem autorização.
-* Proibida a revenda ou redistribuição de instâncias ZapPRO clonadas com identidade visual idêntica ou semelhante.
-* Proibido o uso do nome "ZapPRO" ou identidade visual para promover serviços concorrentes ou derivados.
+- Todos os assets, códigos, prompts, modelos de resposta, textos e lógicas do ZapPRO são **propriedade intelectual exclusiva do projeto e de seus sócios**.
+- **Uso restrito:** O uso comercial, distribuição, cópia, revenda, adaptação, exibição ou modificação dos conteúdos e fluxos do ZapPRO, total ou parcial, sem autorização formal, é **expressamente proibido**.
+- **Licença de uso:**  
+  - Clientes ZapPRO têm licença limitada, não exclusiva, apenas para uso individual no contexto contratado.
+  - Franqueados, revendedores ou equipes devem seguir contratos próprios de licença e distribuição, definidos por escrito.
+- **Termos de confidencialidade:**  
+  - É vedado divulgar, publicar, compartilhar ou replicar qualquer modelo, prompt, código, fluxo ou integração do ZapPRO sem autorização prévia dos responsáveis legais do projeto.
 
 ---
 
-## Licenciamento
+## **Canal Oficial, Marcas e Referência**
 
-O licenciamento do ZapPRO segue um modelo **privativo sob controle do autor**. A distribuição comercial está autorizada apenas mediante contrato de licenciamento ou franquia SaaS formalizada com o criador.
-
-**Licenças liberadas (quando aplicável):**
-
-| Item                             | Licença                    | Observações                                |
-| -------------------------------- | -------------------------- | ------------------------------------------ |
-| Códigos auxiliares em `scripts/` | MIT (sob autorização)      | Podem ser adaptados para outros projetos   |
-| HTML da Landing Page             | Uso exclusivo com menção   | Adaptável apenas com manutenção de autoria |
-| Agentes e fluxos GPT             | Exclusivo para uso interno | Protegidos contra revenda sem contrato     |
+- ZapPRO®, seus módulos, agentes e logotipo são **marcas registradas**.
+- O uso do nome “ZapPRO” e variações só pode ser feito em referência ao serviço ou produto autorizado pelo time ZapPRO.
+- Dúvidas legais ou solicitações de licenciamento:  
+  - **E-mail:** legal@zappro.site
 
 ---
 
-## Marcas, Domínios e Identidade Visual
+## **Exemplo de cláusula para contratos**
 
-Os seguintes nomes, domínios e designs estão reservados:
+```
 
-* **Nome**: ZapPRO
-* **Domínio**: `zappro.site`, `painel.zappro.site`, e variações
-* **Logotipo e cores**: Identidade visual definida no design original do projeto
+Todas as automações, fluxos, templates, prompts, agentes, scripts, páginas e respostas geradas pelo ZapPRO, inclusive derivados e customizados, são protegidos por direitos autorais, patente e segredo comercial. É proibido o uso ou adaptação sem contrato firmado. Cópias, exportações, integrações e redistribuições não autorizadas ensejam bloqueio imediato do serviço e sanções legais conforme as leis nacionais e internacionais aplicáveis.
 
-Qualquer uso comercial ou técnico destes ativos exige autorização formal do autor.
+```
 
 ---
 
-## Compliance e Proteção Legal
+## **Proteção do Projeto e Garantia de Exclusividade**
 
-Este projeto possui auditoria interna de conformidade com as diretrizes da **Meta (WhatsApp API)** e práticas de mercado para proteção contra banimento e uso indevido de automação.
-
----
-
-## Aviso de Responsabilidade
-
-O uso indevido do ZapPRO, ou sua implementação sem observar os limites da Z-API (não oficial), pode resultar em **restrições, bloqueios ou sanções por parte da Meta**. O autor não se responsabiliza por implementações feitas sem suporte oficial.
+- Quaisquer violações poderão ser denunciadas e punidas civil e criminalmente.
+- A ZapPRO se reserva o direito de bloquear usuários, revendedores ou franqueados em caso de uso indevido, concorrência desleal, plágio, engenharia reversa ou divulgação não autorizada.
 
 ---
 
-## Contato Oficial
+## **Data de atualização**
 
-Para licenciamento, parcerias ou denúncias de uso indevido:
+> Atualizado em 2025-07-14  
+> [Todos os direitos reservados | ZapPRO ©]
 
-**E-mail**: [will@zappro.site](mailto:will@zappro.site)
-**Site**: [https://zappro.site](https://zappro.site)
+```

@@ -1,78 +1,84 @@
-Segue o conteúdo final do arquivo `resumo-pdf.md`, pronto para colar dentro do diretório `docs/horizontal/`:
+# 📄 Resumo PDF Automático – ZapPRO
+
+**Resumo:**  
+Gere relatórios automáticos, profissionais e prontos para compartilhar com cliente, contador, sócio ou para arquivar. Com apenas um comando, o ZapPRO transforma o histórico do dia, conversas, tarefas e resultados em um PDF organizado, com layout limpo e branding do seu negócio.
 
 ---
 
-# resumo-pdf.md
+## **Principais funções**
 
-## Finalidade
-
-O objetivo deste módulo é gerar automaticamente um **resumo em PDF personalizado** com os dados e interações do usuário com o assistente ZapPRO. Esse resumo pode ter múltiplas finalidades:
-
-* Entregar valor ao usuário (resumo de insights, ações, tarefas).
-* Atuar como ativo de conversão para o plano PRO.
-* Registrar um relatório de uso ou performance de um agente.
-* Fornecer um documento útil para clientes B2B (consultorias, clínicas, profissionais autônomos).
+- ✅ **Resumo diário/semana/mês:** Um PDF pronto com tudo que foi realizado
+- ✅ **Organização automática:** Separa por blocos (vendas, tarefas, atendimento, financeiro, etc)
+- ✅ **Personalização de branding:** Logo, nome, contato e dados da empresa no cabeçalho
+- ✅ **Compartilhamento fácil:** Receba o PDF direto no WhatsApp e reenvie para quem quiser
+- ✅ **Exportação instantânea:** PDF disponível em segundos após comando ou fechamento do dia
 
 ---
 
-## Formato do Resumo
+## **Exemplo de uso real**
 
-O PDF é gerado via FastAPI ou por um container especializado em geração de documentos. O conteúdo do resumo pode variar conforme o plano:
+**No WhatsApp:**
+```
 
-### Estrutura Comum (Trial e PRO)
+Usuário: Quero um resumo do meu dia em PDF
+Bot: Resumo gerado! \[link para baixar] – Enviado também no seu e-mail cadastrado.
 
-* Nome do usuário (capturado no onboarding).
-* Data e hora do resumo.
-* Objetivo declarado do usuário.
-* Lista das interações mais relevantes.
-* Ações sugeridas pelo assistente.
-* Observações automáticas com base nas mensagens.
-
-### Elementos Exclusivos do PRO
-
-* Gráficos ou estatísticas de performance (se aplicável).
-* Recomendações de ferramentas IA baseadas no perfil.
-* Campos personalizados por profissão.
-* Assinatura do assistente especialista (por profissão).
-* QR Code com link direto para continuidade no WhatsApp.
+````
+**Pela API (para dev):**
+```json
+POST http://localhost:8001/resumo_pdf
+{
+  "periodo": "semana"
+}
+````
 
 ---
 
-## Exemplo de Aplicação por Profissão
+## **Como testar**
 
-| Profissão        | Conteúdo Personalizado no PDF                                  |
-| ---------------- | -------------------------------------------------------------- |
-| Nutricionista    | Resumo alimentar, lista de metas, plano semanal proposto       |
-| Mecânico         | Diagnóstico simulado e recomendações de manutenção             |
-| Coach            | Frases motivacionais, metas da semana, progresso registrado    |
-| Gestor Comercial | Pipeline simulado, script de vendas usado, índice de persuasão |
-| Advogado         | Lista de demandas e prioridades, orientações básicas           |
+* **Via WhatsApp:**
+  Envie comandos como “Resumo do dia em PDF”, “Quero relatório do mês”, ou “Baixar PDF do histórico”.
+* **Via API:**
 
----
+  * Endpoint: `POST /resumo_pdf`
+  * Payload exemplo:
 
-## Tecnologias Envolvidas
+    ```json
+    {
+      "periodo": "dia"
+    }
+    ```
+  * Resposta esperada:
 
-* **FastAPI**: Endpoint `/generate-pdf` que recebe dados e retorna o PDF.
-* **WeasyPrint** (ou similar): Biblioteca para converter HTML em PDF.
-* **Jinja2**: Template engine para gerar HTML dinamicamente com base no usuário.
-* **Banco de dados**: Consulta aos registros do usuário (tokens, profissão, uso).
-
----
-
-## Gatilhos para Geração
-
-* Comando do usuário (ex: "quero meu resumo").
-* Final de sessão ou término do tempo trial.
-* Proativamente pelo assistente como incentivo de upgrade.
-* Periodicamente (se configurado para PRO mensal).
+    ```json
+    {
+      "link_pdf": "https://zappro.site/pdfs/2025-07-14-usuario123.pdf"
+    }
+    ```
 
 ---
 
-## Segurança e Armazenamento
+## **Diferença Trial vs PRO**
 
-* O PDF pode ser enviado diretamente via Z-API para o WhatsApp.
-* Também pode ser armazenado temporariamente em `/pdf/usuário/{id}` com expiração automática.
-* Nenhuma informação sensível deve ser salva sem criptografia ou consentimento explícito.
+| Função                  | Trial/Demo        | PRO                                 |
+| ----------------------- | ----------------- | ----------------------------------- |
+| Resumo PDF do dia       | ✅                 | ✅                                   |
+| Personalização de logo  | ❌                 | ✅ (sua marca no cabeçalho)          |
+| Blocos por área         | ❌                 | ✅ (vendas, atendimento, financeiro) |
+| Histórico por período   | ❌                 | ✅ (diário, semanal, mensal)         |
+| Compartilhamento direto | ✅ link temporário | ✅ link fixo + envio automático      |
 
 ---
+
+## **Futuros upgrades**
+
+* 📝 Escolha de template/tema visual do PDF
+* 🔗 Integração direta com Google Drive/Dropbox
+* 📊 Resumo visual com gráficos e indicadores
+* 🔒 Proteção com senha para PDFs sensíveis
+
+---
+
+> Atualizado em 2025-07-14
+> \[Todos os direitos reservados | ZapPRO ©]
 

@@ -14,14 +14,4 @@ git pull origin main --rebase
 echo "📂 Restaurando mudanças locais..."
 git stash pop || echo "⚠️ Nenhuma mudança local para restaurar."
 
-PAINEL_ORIGEM="painel"
-PAINEL_DESTINO="/var/www/painel"
-
-if [ -d "$PAINEL_ORIGEM" ]; then
-  echo "🧩 Atualizando painel..."
-  sudo cp -r "$PAINEL_ORIGEM"/* "$PAINEL_DESTINO"/
-  sudo chown -R www-data:www-data "$PAINEL_DESTINO"
-  echo "✅ Painel sincronizado e atualizado!"
-else
-  echo "⚠️ Pasta '$PAINEL_ORIGEM' não existe. Ignorando atualização do painel."
-fi
+echo "✅ Pull finalizado com sucesso! Projeto sincronizado com o GitHub."

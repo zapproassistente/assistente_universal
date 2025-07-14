@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ZapPRO - Aula Definitiva: Containers, Dockerfile, Compose, VSCode & n8n</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+    main { max-width: 820px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 18px #0001; padding: 2em 2.5em; }
+    h1 { color: #1a365d; margin-top: 0; }
+    h2 { color: #0e6477; margin-top: 2em; }
+    code, pre { background: #eef4ff; color: #18334b; padding: 0.2em 0.5em; border-radius: 5px; font-size: 1em; }
+    .dica { background: #dfffdc; border-left: 6px solid #55bb51; padding: 0.7em 1em; margin: 1em 0; }
+    ul { margin-left: 2em; }
+    hr { border: none; border-top: 2px solid #e7e7e7; margin: 2em 0; }
+    .bloco { background: #f8fafb; border-radius: 5px; padding: 1em 1.2em; margin-bottom: 1.5em; border-left: 4px solid #79baff;}
+    .alerta { background: #fffbe6; border-left: 4px solid #ffe066; padding: 0.7em 1em; margin: 1em 0; }
+    .botao { display: inline-block; background: #2563eb; color: #fff; padding: 0.5em 1.2em; border-radius: 5px; text-decoration: none; margin: 1em 0; font-weight: 600; }
+    .passo { background: #e6f2ff; border-radius: 4px; padding: 0.7em 1em; margin-bottom: 0.5em; }
+    .codeblock { background: #f0f8ff; border-radius: 4px; font-size: 1em; padding: 1em; overflow-x: auto; margin-bottom: 1em;}
+  </style>
+</head>
+<body>
+<main>
+  <h1>ZapPRO - Como Plugar Agentes, Escalar com Docker, VSCode e n8n</h1>
+
+  <div class="bloco">
+    <strong>Você vai aprender:</strong><br>
+    • Para que serve cada arquivo (Dockerfile, Docker Compose)<br>
+    • Por que Docker Compose fica na raiz e Dockerfile em cada agente<br>
+    • Como nunca mais errar ao plugar um agente novo<br>
+    • Como VSCode e n8n se completam na arquitetura modular<br>
+  </div>
+
+  <h2>O que é Dockerfile?</h2>
+  <p>
+    <strong>Dockerfile</strong> é um “receita” em texto que diz para o Docker como montar um ambiente pronto (container) para sua aplicação.<br>
+    Cada agente seu (demo, fiscal, vendas, proposta etc.) tem seu <strong>próprio Dockerfile</strong> dentro da pasta.
+  </p>
+  <div class="codeblock">
+    Exemplo de Dockerfile para um agente:<br>
+    <code>
+      FROM python:3.11-slim<br>
+      WORKDIR /app<br>
+      COPY requirements.txt .<br>
+      RUN pip install --no-cache-dir -r requirements.txt<br>
+      COPY . .<br>
+      CMD ["python", "main.py"]
+    </code>
+  </div>
+
+  <div class="dica">
+    <b>Resumo:</b> O Dockerfile é como uma “forma” para assar seu app. O resultado é um container: um ambiente isolado, idêntico, imune a bugs de dependências do seu computador.
+  </div>
+
+  <h2>O que é Docker Compose e por que fica na raiz?</h2>
+  <p>
+    <strong>Docker Compose</strong> é um arquivo <code>docker-compose.yml</code> que <b>orquestra todos os containers juntos</b> (como maestro de uma orquestra).<br>
+    Ele SEMPRE fica na raiz do projeto porque ali é onde você define o conjunto inteiro: FastAPI, agentes, banco, zapi, etc.
+  </p>
+  <div class="codeblock">
+    Exemplo:<br>
+    <code>
+      version: '3.8'<br>
+      services:<br>
+        agente-demo:<br>
+          build: ./agentes/agente-demo<br>
+          ports:<br>
+            - "8002:8000"<br>
+        agente-proposta:<br>
+          build: ./agentes/agente-proposta<br>
+          ports:<br>
+            - "8010:8000"<br>
+    </code>
+  </div>
+
+  <h2>Por que cada agente tem seu Dockerfile?</h2>
+  <ul>
+    <li>Permite ambientes 100% isolados (um agente nunca quebra o outro)</li>
+    <li>Você pode plugar/desplugar qualquer agente sem medo</li>
+    <li>Cada agente pode usar versões de libs ou python diferentes, se quiser</li>
+    <li>Facilita escalar só o que precisa (um agente pode rodar 5x, outro só 1x)</li>
+  </ul>
+
+  <h2>Por que Docker Compose é na raiz?</h2>
+  <ul>
+    <li>Ele monta TODO o ecossistema junto (como um docker-compose up --build -d faz tudo de uma vez)</li>
+    <li>Gerencia comunicação entre containers (rede interna)</li>
+    <li>Facilita rodar em qualquer lugar (dev, staging, produção)</li>
+  </ul>
+
+  <h2>VSCode x n8n — como se complementam?</h2>
+  <ul>
+    <li><strong>VSCode</strong>: você cria os agentes (código, lógica, customização máxima, containers personalizados)</li>
+    <li><strong>n8n</strong>: conecta tudo, monta automações, fluxos, integra APIs de outros serviços (Google, e-mail, WhatsApp, CRM...)</li>
+  </ul>
+  <div class="bloco">
+    <b>Como fazer na prática?</b><br>
+    - Você CRIA cada agente no VSCode, com sua pasta, Dockerfile, endpoints.<br>
+    - Você PODE plugar cada agente (containerizado) no n8n, usando HTTP Request Node para chamar endpoints internos.<br>
+    - O n8n vira o “lego” visual: conecta agentes, cria automações, integra novos serviços, sem reescrever código.
+  </div>
+
+  <hr>
+
+  <h2>Checklist definitivo para plugar novo agente</h2>
+  <div class="passo">1️⃣  Crie uma pasta para o agente: <code>./agentes/agente-novo/</code></div>
+  <div class="passo">2️⃣  Dentro, crie: <code>Dockerfile</code>, <code>main.py</code>, <code>requirements.txt</code></div>
+  <div class="passo">3️⃣  No <code>docker-compose.yml</code> da raiz, adicione o bloco do agente:<br>
+    <code>
+      agente-novo:<br>
+      &nbsp;&nbsp;build: ./agentes/agente-novo<br>
+      &nbsp;&nbsp;container_name: agente-novo<br>
+      &nbsp;&nbsp;ports:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- "80XX:8000"<br>
+      &nbsp;&nbsp;volumes:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- ./agentes/agente-novo:/app<br>
+      &nbsp;&nbsp;env_file:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;- .env<br>
+      &nbsp;&nbsp;restart: always
+    </code>
+  </div>
+  <div class="passo">4️⃣  Rode sempre na raiz do projeto: <br>
+    <code>docker-compose up --build -d</code>
+  </div>
+  <div class="passo">5️⃣  O agente já está plugado, seguro, escalável!</div>
+
+  <hr>
+
+  <h2>Dicas avançadas</h2>
+  <ul>
+    <li><b>Nunca repita a mesma porta</b> para mais de um agente.</li>
+    <li><b>Só precisa ativar ambiente virtual (venv) se rodar local sem Docker.</b></li>
+    <li>No n8n, chame seus endpoints internos como <code>http://agente-novo:8000/seu-endpoint</code> no HTTP Request Node.</li>
+    <li>Documente o que cada agente faz e o endpoint de cada um no seu <b>docs/</b></li>
+  </ul>
+  <div class="alerta">
+    <b>Errou? Não quebrou nada!</b> Só corrigir o caminho, subir de novo, tudo fica separado!
+  </div>
+
+  <a class="botao" href="https://docs.docker.com/compose/" target="_blank">Saiba mais: Docker Compose</a>
+  <a class="botao" href="https://docs.n8n.io/" target="_blank">Saiba mais: n8n</a>
+
+  <hr>
+  <h2>Pronto para nunca mais errar!</h2>
+  <p>
+    Guarde esse arquivo. Copie, cole e escale qualquer agente ou automação sem medo!<br>
+    <b>Você agora é chefão de containers e automações modernas.</b>
+  </p>
+</main>
+</body>
+</html>

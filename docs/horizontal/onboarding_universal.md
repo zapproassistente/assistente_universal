@@ -1,68 +1,78 @@
-Segue o conteúdo do arquivo `onboarding-universal.md`, pronto para ser colado:
+# 🚀 Onboarding Universal – ZapPRO
+
+**Resumo:**  
+Onboarding automático, inteligente e sem fricção: o ZapPRO captura dados, entende perfil e necessidades do usuário, tudo via conversa natural no WhatsApp. Não exige formulário ou cadastro tradicional — o funil já vai convertendo enquanto encanta e entrega valor.
 
 ---
 
-# onboarding-universal.md
+## **Principais funções**
 
-## Visão Geral
-
-O objetivo deste documento é descrever a estratégia e as diretrizes para a construção de um processo de **onboarding universal automatizado** dentro da infraestrutura ZapPRO. Este processo ocorre integralmente via WhatsApp, utilizando agentes inteligentes que capturam dados, instruem o usuário e promovem conversões, sem fricção e sem necessidade de cadastro tradicional.
-
----
-
-## Objetivos do Onboarding
-
-* **Identificar o perfil do usuário** (profissão, objetivos, área de atuação).
-* **Capturar dados relevantes** para segmentação e ativação de funcionalidades.
-* **Educar o usuário** sobre os recursos disponíveis (versão trial e PRO).
-* **Reduzir atrito** com cadastros e formulários tradicionais.
-* **Atuar como pré-venda automatizada**, utilizando IA e persuasão conversacional.
+- ✅ **Captação invisível:** Pergunta nome, profissão, necessidades, sem parecer cadastro
+- ✅ **Segmentação automática:** Identifica se o usuário é MEI, autônomo, empresa, etc
+- ✅ **Gatilhos de personalização:** Adapta as respostas e sugestões conforme respostas do lead
+- ✅ **Micro-onboarding contínuo:** Coleta dados a cada nova interação, sem interromper a experiência
+- ✅ **Pronto para upgrade:** Após 2-4 interações de valor, oferece o plano PRO de forma natural
 
 ---
 
-## Estratégia Conversacional
+## **Exemplo de fluxo real**
 
-O onboarding universal será orquestrado por um agente `demo`, que:
+**No WhatsApp:**
+```
 
-1. Recebe o novo usuário automaticamente assim que ele inicia a conversa via WhatsApp.
-2. Inicia uma jornada guiada, onde faz perguntas simples com base em gatilhos psicológicos.
-3. Apresenta respostas informativas, sempre encerrando com uma pergunta estratégica para seguir a jornada.
-4. Utiliza recursos como:
+Bot: Olá! Pode contar comigo. Quer ajuda para responder um cliente ou revisar um post?
+Usuário: Quero revisar um post
+Bot: Legal! Pra adaptar melhor, você trabalha com que tipo de negócio?
+Usuário: Sou eletricista autônomo
+Bot: Top! Se quiser, já posso salvar seu perfil. Assim, toda vez que pedir uma resposta já mando personalizada para eletricista.
+Usuário: Sim, por favor
+Bot: Perfil salvo! E se precisar de modelos prontos para orçamento ou cobrança, só avisar. ;)
 
-   * Gatilhos mentais (curiosidade, exclusividade, urgência).
-   * Linguagem informal e natural, adaptada ao público.
-   * Captação progressiva (sem exigir tudo de uma vez).
-5. Registra as respostas no banco de dados via FastAPI.
-
----
-
-## Fases do Onboarding
-
-| Fase             | Objetivo                                                                  |
-| ---------------- | ------------------------------------------------------------------------- |
-| 1. Saudação      | Acolher o usuário, explicar o que o assistente pode fazer por ele         |
-| 2. Identificação | Perguntar o nome, área de atuação ou profissão                            |
-| 3. Objetivo      | Descobrir o que o usuário busca: vender, organizar, automatizar etc.      |
-| 4. Demonstração  | Apresentar uma funcionalidade principal com exemplo prático               |
-| 5. Registro      | Armazenar dados relevantes no backend                                     |
-| 6. Pitch PRO     | Apresentar o plano PRO e seus benefícios                                  |
-| 7. Encerramento  | Reforçar suporte e que ele pode testar tudo gratuitamente por tempo/token |
+````
 
 ---
 
-## Integração Técnica
+## **Como testar**
 
-* O agente demo se conecta com o Orquestrador via Webhook.
-* O Orquestrador redireciona o novo usuário para o fluxo de onboarding.
-* O backend FastAPI recebe os dados em tempo real e atualiza a base de usuários.
-* Tokens e tempo de uso são controlados por container de controle.
+- **Via WhatsApp:**  
+  Inicie a conversa normalmente. Repare como o bot vai “puxando” informações sem pedir cadastro direto.
+- **Via API:**  
+  - Endpoint: `POST /onboarding`
+  - Payload exemplo:  
+    ```json
+    {
+      "mensagem": "Quero revisar uma mensagem"
+    }
+    ```
+  - Resposta esperada:  
+    ```json
+    {
+      "resposta": "Legal! Pra adaptar melhor, você trabalha com que tipo de negócio?"
+    }
+    ```
 
 ---
 
-## Considerações Finais
+## **Diferença Trial vs PRO**
 
-* O onboarding universal é **obrigatório para todos os novos usuários**, mesmo que futuramente integremos com a API oficial da Meta.
-* A linguagem deve ser revisada periodicamente com base em métricas de conversão.
-* O modelo é extensível: pode ser adaptado por persona, nicho ou campanha de origem.
+| Função                        | Trial/Demo      | PRO                              |
+|-------------------------------|-----------------|----------------------------------|
+| Coleta de perfil              | ✅ limitada     | ✅ detalhada (perfis múltiplos)  |
+| Onboarding invisível          | ✅              | ✅ com histórico completo        |
+| Upgrade automático            | ✅ convite leve | ✅ convite personalizado         |
+| Integração CRM                | ❌              | ✅ plugável                      |
 
 ---
+
+## **Futuros upgrades**
+
+- 🤖 Onboarding por voz (transcrição automática)
+- 🔄 Integração com CRM completo e segmentação de lista
+- 🛒 Personalização de funil conforme área de atuação
+- 🏷️ Etiquetas automáticas (lead quente, perdido, VIP...)
+
+---
+
+> Atualizado em 2025-07-14  
+> [Todos os direitos reservados | ZapPRO ©]
+````

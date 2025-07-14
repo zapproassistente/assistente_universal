@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 Painel Mestre – Atalhos ZapPRO DEV</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #121416 url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      font-family: 'Sora', sans-serif;
+      color: #eaf6f5;
+      margin: 0; padding: 0 16px 80px;
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 40px 0;
+    }
+    h1 {
+      color: #61ffe7;
+      text-align: center;
+      margin-bottom: 38px;
+      letter-spacing: 0.5px;
+    }
+    h2 {
+      color: #61ffe7;
+      border-left: 4px solid #61ffe7;
+      padding-left: 14px;
+      margin-top: 42px;
+      margin-bottom: 18px;
+      font-size: 1.1rem;
+    }
+    pre {
+      background: #191c22;
+      padding: 14px 18px;
+      border-radius: 10px;
+      overflow-x: auto;
+      margin: 14px 0 24px 0;
+      color: #d0f0ff;
+      font-size: 1rem;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #61ffe7;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 8px;
+      color: #191c22;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .section {
+      margin-bottom: 22px;
+    }
+    .checklist, ul {
+      margin-top: 8px;
+      margin-bottom: 22px;
+      padding-left: 24px;
+      color: #aefcff;
+      font-size: 1.01rem;
+    }
+    .note { color: #ffd966; font-size: 0.95rem; }
+    .ok { color: #b3ffb7; }
+    .danger { color: #f77; }
+    .divider { border-top: 1px solid #223; margin: 36px 0 32px 0; }
+    .title-emoji { font-size: 1.6em; margin-right: 10px; }
+    .tag { display: inline-block; background: #1c2940; color: #9ef; font-size: 0.85em; border-radius: 6px; padding: 3px 8px; margin-right: 8px; }
+    @media (max-width: 800px) { .container { padding: 0; } }
+    .alert { background: #282d36; border-left: 6px solid #ffe761; color: #ffe761; padding: 16px; border-radius: 12px; font-size: 1.05em; margin-bottom: 18px; }
+    .step { font-size: 1.08em; margin-bottom: 11px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><span class="title-emoji">🚀</span>Painel Mestre – Atalhos & Checklist ZapPRO DEV</h1>
+
+    <div class="alert">
+      <b>Fluxograma de Deploy:</b> <br>
+      <b>1.</b> <span class="ok">Edite no VSCode</span> → 
+      <b>2.</b> <span class="ok">Commit (local)</span> → 
+      <b>3.</b> <span class="ok">Push (GitHub)</span> → 
+      <b>4.</b> <span class="ok">Pull (VPS)</span> → 
+      <b>5.</b> <span class="ok">Sync/Deploy</span> <br>
+      <b>(Nunca mais erre: sempre siga esta ordem!)</b>
+    </div>
+
+    <div class="section">
+      <h2>✅ GIT & Deploy (Scripts inteligentes)</h2>
+      <pre><code id="sh1">sudo -E ./scripts/git_sync.sh</code><button class="copy-btn" onclick="copy('sh1')">Copiar</button></pre>
+      <pre><code id="sh2">sudo -E ./scripts/git_push.sh</code><button class="copy-btn" onclick="copy('sh2')">Copiar</button></pre>
+      <pre><code id="sh3">sudo -E ./scripts/git_pull.sh</code><button class="copy-btn" onclick="copy('sh3')">Copiar</button></pre>
+      <pre><code id="sh4">chmod +x scripts/*.sh</code><button class="copy-btn" onclick="copy('sh4')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>📝 Commit, Rollback e Backup de Arquivos Específicos</h2>
+      <div class="step"><b>Alterou só 1 arquivo?</b> Commit nele:</div>
+      <pre><code id="cmta1">git add main.py
+git commit -m "📝 Ajuste/teste no main.py"
+git push origin main</code><button class="copy-btn" onclick="copy('cmta1')">Copiar</button></pre>
+      <div class="step"><b>Não gostou da mudança (antes do push)?</b> Volte para o último commit:</div>
+      <pre><code id="cmta2">git checkout -- main.py</code><button class="copy-btn" onclick="copy('cmta2')">Copiar</button></pre>
+      <div class="step"><b>Se já fez push e quer voltar ao commit anterior?</b></div>
+      <pre><code id="cmta3">git log main.py
+# Copie o hash do commit desejado (ex: abc1234)
+git checkout abc1234 -- main.py
+git add main.py
+git commit -m "🚨 Rollback: volta main.py para versão estável"
+git push origin main</code><button class="copy-btn" onclick="copy('cmta3')">Copiar</button></pre>
+      <div class="step"><b>Backup ZIP antes de mexer?</b></div>
+      <pre><code id="cmta4">zip -r assistente_universal_$(date +%F).zip .</code><button class="copy-btn" onclick="copy('cmta4')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>🐳 Docker (Gerenciamento de containers)</h2>
+      <pre><code id="cmd5">docker-compose up --build -d</code><button class="copy-btn" onclick="copy('cmd5')">Copiar</button></pre>
+      <pre><code id="cmd6">docker-compose down</code><button class="copy-btn" onclick="copy('cmd6')">Copiar</button></pre>
+      <pre><code id="cmd7">docker ps -a</code><button class="copy-btn" onclick="copy('cmd7')">Copiar</button></pre>
+      <pre><code id="cmd8">docker exec -it NOME_CONTAINER bash</code><button class="copy-btn" onclick="copy('cmd8')">Copiar</button></pre>
+      <pre><code id="cmd9">docker logs NOME_CONTAINER</code><button class="copy-btn" onclick="copy('cmd9')">Copiar</button></pre>
+      <pre><code id="cmd10">docker-compose logs --tail=100 -f</code><button class="copy-btn" onclick="copy('cmd10')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>💻 WSL / VS Code</h2>
+      <pre><code id="cmd11">code .</code><button class="copy-btn" onclick="copy('cmd11')">Copiar</button></pre>
+      <pre><code id="cmd12">wsl --list --verbose</code><button class="copy-btn" onclick="copy('cmd12')">Copiar</button></pre>
+      <pre><code id="cmd13">wsl --set-version Ubuntu 2</code><button class="copy-btn" onclick="copy('cmd13')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>🌐 NGINX</h2>
+      <pre><code id="cmd14">sudo nginx -t</code><button class="copy-btn" onclick="copy('cmd14')">Copiar</button></pre>
+      <pre><code id="cmd15">sudo systemctl reload nginx</code><button class="copy-btn" onclick="copy('cmd15')">Copiar</button></pre>
+      <pre><code id="cmd16">sudo systemctl restart nginx</code><button class="copy-btn" onclick="copy('cmd16')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>🔑 Permissões & Setup</h2>
+      <pre><code id="cmd17">sudo chown -R $USER:$USER .</code><button class="copy-btn" onclick="copy('cmd17')">Copiar</button></pre>
+      <pre><code id="cmd18">sudo chmod -R 755 .</code><button class="copy-btn" onclick="copy('cmd18')">Copiar</button></pre>
+      <pre><code id="cmd19">sudo apt update && sudo apt upgrade -y</code><button class="copy-btn" onclick="copy('cmd19')">Copiar</button></pre>
+    </div>
+
+    <div class="section">
+      <h2>📒 Checklist “NUNCA MAIS ERRE SYNC”</h2>
+      <ul class="checklist">
+        <li>1️⃣ <b>PC:</b> Commit + Push dos arquivos locais (<code>git add . && git commit -m "msg" && git push origin main</code>)</li>
+        <li>2️⃣ <b>VPS:</b> Pull <b>antes</b> de qualquer deploy (<code>git pull origin main --rebase</code>)</li>
+        <li>3️⃣ <b>Checar branch:</b> <code>git branch</code> – sempre em <b>main</b></li>
+        <li>4️⃣ <b>Deploy:</b> Rode <code>sudo -E ./scripts/git_sync.sh</code></li>
+        <li>5️⃣ <b>Verifique arquivos atualizados</b> (<code>ls -lh html/index.html</code> ou <code>cat html/index.html | head -20</code>)</li>
+        <li>6️⃣ <b>Limpe cache do navegador</b> (Ctrl+Shift+R)</li>
+      </ul>
+      <span class="note">Se falhar: veja logs <code>docker logs NOME_CONTAINER</code> ou <code>sudo tail -n 30 /var/log/nginx/error.log</code></span>
+    </div>
+
+    <div class="section">
+      <h2>🔒 SSH & Segurança</h2>
+      <pre><code id="cmd20">ssh stree@147.93.146.225</code><button class="copy-btn" onclick="copy('cmd20')">Copiar</button></pre>
+      <pre><code id="cmd21">cat ~/.ssh/id_rsa.pub</code><button class="copy-btn" onclick="copy('cmd21')">Copiar</button></pre>
+      <pre><code id="cmd22">ssh-add ~/.ssh/id_rsa</code><button class="copy-btn" onclick="copy('cmd22')">Copiar</button></pre>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section">
+      <h2>🦾 Super Dicas para DEV</h2>
+      <ul>
+        <li><span class="tag">Git/SSH</span> Sempre confirme <code>git remote -v</code> nas duas máquinas.</li>
+        <li><span class="tag">Backup</span> Antes de mudanças grandes: <code>zip -r assistente_universal_$(date +%F).zip .</code></li>
+        <li><span class="tag">CI/CD</span> Os scripts <code>git_sync.sh</code>, <code>git_push.sh</code>, <code>git_pull.sh</code> cuidam de 99% dos casos.</li>
+        <li><span class="tag">Docker</span> Novo agente? Copie pasta modelo, ajuste Dockerfile, adicione no docker-compose.yml.</li>
+        <li><span class="tag">n8n</span> Para automatizar integração WhatsApp, Google Sheets, etc.</li>
+        <li><span class="tag">VSCode</span> Trabalhe SEMPRE no WSL para facilitar o build local.</li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    function copy(id) {
+      const code = document.getElementById(id);
+      navigator.clipboard.writeText(code.textContent).then(() => {
+        const btn = code.nextElementSibling;
+        btn.textContent = '✅ Copiado';
+        setTimeout(() => btn.textContent = 'Copiar', 1400);
+      });
+    }
+  </script>
+</body>
+</html>

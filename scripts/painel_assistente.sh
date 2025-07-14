@@ -15,12 +15,10 @@ while true; do
     echo "🧠 ASSISTENTE UNIVERSAL - TERMINAL DEV"
     echo "📍 Projeto: $PROJETO"
     echo "=============================="
-    echo "1️⃣  Git Sync     (add, commit, pull --rebase, push)"
+    echo "1️⃣  Git Sync     (add, commit, pull --rebase, push, deploy landing)"
     echo "2️⃣  Git Push     (add, commit, push)"
     echo "3️⃣  Git Pull     (pull --rebase)"
-    echo "4️⃣  Deploy Painel (./scripts/atualizar_painel.sh)"
-    echo "5️⃣  Abrir no VS Code"
-    echo "6️⃣  Abrir Painel Web (https://painel.zappro.site)"
+    echo "4️⃣  Abrir no VS Code"
     echo "0️⃣  Sair"
     echo "=============================="
     read -rp "👉 Escolha uma opção: " opcao
@@ -29,9 +27,7 @@ while true; do
         1) bash "$SCRIPTS/git_sync.sh" ;;
         2) bash "$SCRIPTS/git_push.sh" ;;
         3) bash "$SCRIPTS/git_pull.sh" ;;
-        4) bash "$SCRIPTS/atualizar_painel.sh" ;;
-        5) code . ;;
-        6) wslview https://painel.zappro.site ;;
+        4) code . ;;
         0) echo "👋 Saindo do painel." && break ;;
         *) echo "❌ Opção inválida. Tente novamente." ;;
     esac

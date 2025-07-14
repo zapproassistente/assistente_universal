@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   fastapi:
-    build: .
+    build: ./agentes/fastapi
     ports:
       - "8000:8000"
     volumes:
@@ -10,3 +10,45 @@ services:
     env_file:
       - .env
     restart: always
+
+  agente-demo:
+    build: ./agentes/agente-demo
+    container_name: agente-demo
+    ports:
+      - "8002:8000"
+    env_file:
+      - .env
+    restart: always
+
+  agente-fiscal:
+    build: ./agentes/agente-fiscal
+    container_name: agente-fiscal
+    ports:
+      - "8003:8000"
+    env_file:
+      - .env
+    restart: always
+
+  orquestrador:
+    build: ./agentes/orquestrador
+    container_name: orquestrador
+    ports:
+      - "8001:8000"
+    env_file:
+      - .env
+    restart: always
+
+  agente-proposta:
+    build: ./agentes/agente-proposta
+    container_name: agente-proposta
+    ports:
+      - "8010:8000"
+    volumes:
+      - ./agentes/agente-proposta:/app
+    env_file:
+      - .env
+    restart: always
+
+  # Adicione outros agentes conforme evoluir...
+
+# OBS: Certifique-se que a pasta agente-proposta está em ./agentes/agente-proposta
